@@ -1134,4 +1134,8 @@ export default {
         border: 2px solid #212121;
         color: white;
     }
+
+    .cvsscalculator {
+        display: none;
+    }
 </style>
