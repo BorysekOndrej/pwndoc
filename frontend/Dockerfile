@@ -4,6 +4,11 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 COPY . .
+
+# BEGIN CUSTOM
+ARG API_PORT=8443
+# END CUSTOM
+
 RUN npm run build
 
 ### STAGE 2: Run ###
