@@ -398,6 +398,7 @@ AuditSchema.statics.createFinding = (isAdmin, auditId, userId, finding) => {
 AuditSchema.statics.getLastFindingIdentifier = (auditId) => {
     return new Promise((resolve, reject) => {
         var query = Audit.aggregate([{ $match: {_id: mongoose.Types.ObjectId(auditId)} }])
+        query.allowDiskUse()  // This is no-op until Mongo 4.4
         query.unwind('findings')
         query.sort({'findings.identifier': -1})
         query.exec()
@@ -643,7 +644,6 @@ AuditSchema.statics.updateSortFindings = (isAdmin, auditId, userId, update) => {
             .chain(audit.findings)
             .groupBy("category")
             .toPairs()
-            .allowDiskUse()
             .sort((a,b) => categoriesOrder.indexOf(a[0]) - categoriesOrder.indexOf(b[0]))
             .fromPairs()
             .map((value, key) => {
@@ -663,7 +663,6 @@ AuditSchema.statics.updateSortFindings = (isAdmin, auditId, userId, update) => {
                 if (group.sortOption.sortOrder === 'asc') order = 1
 
                 var tmpFindings = group.findings
-                .allowDiskUse()
                 .sort((a,b) => {
                     var cvssA = CVSS31.calculateCVSSFromVector(a.cvssv3)
                     var cvssB = CVSS31.calculateCVSSFromVector(b.cvssv3)
