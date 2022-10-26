@@ -495,5 +495,35 @@ export default {
             else
                 this.$refs.editModal.show()
         }
+        
+        ,copySharedFields: function() {
+            this.cleanErrors();
+            let currentLanguageId = this.currentDetailsIndex;
+            let currentLanguageName = this.currentLanguage;
+
+            let currentVulnerability = this.currentVulnerability;
+
+            let copied_to_locales = [];
+            for (let i = 0; i < currentVulnerability.details.length; i++){
+                let ogLocale = currentVulnerability.details[currentLanguageId];
+                let newLocale = currentVulnerability.details[i];
+                if (i == currentLanguageId || newLocale.locale == 'og' ){ continue; }
+
+                newLocale.references = ogLocale.references;
+                newLocale.customFields = ogLocale.customFields; // todo: some custom fields need to be translated
+                copied_to_locales.push(newLocale.locale);
+            }
+            
+            Notify.create({
+                message:
+                copied_to_locales.length 
+                    ? `Custom fields copied from "${currentLanguageName}" to "${copied_to_locales}."`
+                    : `Custom fields are only copied to non-og locales that exist (i.e. have been at least opened.)`,
+                color: copied_to_locales.length ? 'positive' : 'negative',
+                textColor:'white',
+                position: 'top-right'
+            })
+        }
+
     }
 }
