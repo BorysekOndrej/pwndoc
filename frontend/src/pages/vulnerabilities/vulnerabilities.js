@@ -496,6 +496,48 @@ export default {
                 this.$refs.editModal.show()
         }
         
+        ,_get_custom_fields_select: function() {
+            let answer = {};
+            
+            let customFields = this.customFields;
+            for (const singleField of customFields){
+                if (singleField.fieldType != 'select') { continue; }
+                let fieldID = singleField._id;
+                answer[fieldID] = {};
+
+                for (const singleOption of singleField.options){
+                    if (!(singleOption.locale in answer[fieldID])){
+                        answer[fieldID][singleOption.locale] = [];
+                    }
+                    answer[fieldID][singleOption.locale].push(singleOption.value);
+                }
+            }
+            return answer;
+        }
+
+        ,_translate_custom_field: function(field_id, og_locale, og_val, new_locale) {
+            let all_fields = this._get_custom_fields_select();
+            if (!(field_id in all_fields)) { return undefined; }
+
+            let og_index = all_fields[field_id][og_locale].indexOf(og_val);
+            let new_val = all_fields[field_id][new_locale][og_index];
+            return new_val;
+        }
+
+        ,_translate_several_custom_fields: function(custom_fields, og_locale_str, new_locale_str) {
+            for (let i = 0; i < custom_fields.length; i++){
+                let new_val = this._translate_custom_field(
+                    custom_fields[i].customField._id,
+                    og_locale_str,
+                    custom_fields[i].text,
+                    new_locale_str                  
+                )
+                console.debug(custom_fields[i].customField.label, og_locale_str, custom_fields[i].text, new_locale_str, new_val);
+                if (new_val === undefined) { continue; }
+                custom_fields[i].customField.text = new_val;
+            }
+        }
+
         ,copySharedFields: function() {
             this.cleanErrors();
             let currentLanguageId = this.currentDetailsIndex;
@@ -510,7 +552,9 @@ export default {
                 if (i == currentLanguageId || newLocale.locale == 'og' ){ continue; }
 
                 newLocale.references = ogLocale.references;
-                newLocale.customFields = ogLocale.customFields; // todo: some custom fields need to be translated
+                newLocale.customFields = this.$_.cloneDeep(ogLocale.customFields);
+                this._translate_several_custom_fields(newLocale.customFields, ogLocale.locale, newLocale.locale);
+
                 copied_to_locales.push(newLocale.locale);
             }
             
@@ -518,7 +562,7 @@ export default {
                 message:
                 copied_to_locales.length 
                     ? `Custom fields copied from "${currentLanguageName}" to "${copied_to_locales}."`
-                    : `Custom fields are only copied to non-og locales that exist (i.e. have been at least opened.)`,
+                    : `Custom fields are only copied to non-og locales that exist (i.e. have been at least opened).`,
                 color: copied_to_locales.length ? 'positive' : 'negative',
                 textColor:'white',
                 position: 'top-right'
