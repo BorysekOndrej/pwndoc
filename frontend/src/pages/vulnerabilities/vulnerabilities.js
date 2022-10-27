@@ -9,6 +9,7 @@ import CustomFields from 'components/custom-fields'
 import VulnerabilityService from '@/services/vulnerability'
 import DataService from '@/services/data'
 import UserService from '@/services/user'
+import ImportAutomatorService from '@/services/import_automator'
 import Utils from '@/services/utils'
 
 import { $t } from 'boot/i18n'
@@ -215,6 +216,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
+                this.triggerImporterDBUpdateForTemplate();
             })
             .catch((err) => {
                 Notify.create({
@@ -246,6 +248,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
+                this.triggerImporterDBUpdateForTemplate();
             })
             .catch((err) => {
                 Notify.create({
@@ -267,6 +270,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
+                this.triggerImporterDBUpdateForTemplate();
             })
             .catch((err) => {
                 Notify.create({
@@ -614,6 +618,18 @@ export default {
                 textColor:'white',
                 position: 'top-right'
             })
+        }
+
+        ,triggerImporterDBUpdateForTemplate(){
+            let templateID = this.currentVulnerability._id; // this might be undefined
+            ImportAutomatorService.updateImporterDB(templateID).catch((err) => {
+                Notify.create({
+                    message: err.response.data.datas,
+                    color: 'negative',
+                    textColor: 'white',
+                    position: 'top-right'
+                })
+            });
         }
 
     }
