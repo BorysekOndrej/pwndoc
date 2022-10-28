@@ -6,7 +6,7 @@ module.exports = function(request) {
     describe('Application configs', () => {
       var options = {headers: {}}
       beforeAll(async done => {
-        var response = await request.post('/api/users/token', {username: 'admin', password: 'admin2'})
+        var response = await request.post('/api/users/token', {username: 'admin', password: 'Password2'})
         options.headers.Cookie = `token=${response.data.datas.token}` // Set header Cookie for next requests
         done()
       })

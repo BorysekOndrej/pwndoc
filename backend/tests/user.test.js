@@ -19,7 +19,7 @@ module.exports = function(request) {
       })
 
       it('Authenticate with nonexistent user', async done => {
-        var response = await request.post('/api/users/token', {username: 'admin', password: 'admin'})
+        var response = await request.post('/api/users/token', {username: 'admin', password: 'Password1'})
       
         expect(response.status).toBe(401)
         done()
@@ -28,7 +28,7 @@ module.exports = function(request) {
       it('Create first user', async done => {
         var user = {
           username: 'admin',
-          password: 'admin',
+          password: 'Password1',
           firstname: 'Admin',
           lastname: 'Istrator'
         }
@@ -41,7 +41,7 @@ module.exports = function(request) {
       it('Create first user when it already exists', async done => {
         var user = {
           username: 'admin2',
-          password: 'admin2',
+          password: 'Password2',
           firstname: 'Admin2',
           lastname: 'Istrator2'
         }
@@ -54,7 +54,7 @@ module.exports = function(request) {
       it('Authenticate with first user', async done => {
         var user = {
           username: 'admin',
-          password: 'admin'
+          password: 'Password1'
         }
         var response = await request.post('/api/users/token', user)
       
@@ -79,7 +79,7 @@ module.exports = function(request) {
       it('Authenticate with admin user', async done => {
         var user = {
           username: 'admin',
-          password: 'admin'
+          password: 'Password1'
         }
         var response = await request.post('/api/users/token', user)
       
@@ -113,7 +113,7 @@ module.exports = function(request) {
       it('Create user with role user', async done => {
         var user = {
           username: 'user',
-          password: 'user',
+          password: 'Password1',
           firstname: 'User',
           lastname: 'Test',
           role: 'user'
@@ -129,7 +129,7 @@ module.exports = function(request) {
       it('Create user with role user without role parameter', async done => {
         var user = {
           username: 'tmpuser',
-          password: 'tmpuser',
+          password: 'Password1',
           firstname: 'Tmp',
           lastname: 'User'
         }
@@ -144,7 +144,7 @@ module.exports = function(request) {
       it('Create user with role report', async done => {
         var user = {
           username: 'report',
-          password: 'report',
+          password: 'Password1',
           firstname: 'Report',
           lastname: 'Admin',
           role: 'report'
@@ -160,7 +160,7 @@ module.exports = function(request) {
       it('Create user with role reviewer', async done => {
         var user = {
           username: 'reviewer',
-          password: 'reviewer',
+          password: 'Password1',
           firstname: 'reviewer',
           lastname: 'reviewer',
           role: 'reviewer'
@@ -196,9 +196,9 @@ module.exports = function(request) {
         }
 
         var user = {
-          currentPassword: "admin",
-          newPassword: 'admin2',
-          confirmPassword: 'admin2',
+          currentPassword: "Password1",
+          newPassword: 'Password2',
+          confirmPassword: 'Password2',
           firstname: 'Admin2'
         }
         var response = await request.put('/api/users/me', user, options)
@@ -220,7 +220,7 @@ module.exports = function(request) {
         var user = {
           username: 'user2',
           firstname: 'User2',
-          password: 'user2',
+          password: 'Password2',
         }
 
         var userRequest = await request.get('/api/users/user', options)
