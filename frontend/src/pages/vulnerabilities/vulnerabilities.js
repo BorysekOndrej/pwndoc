@@ -228,6 +228,14 @@ export default {
             })
         },
 
+        updateVulnerabilityFromAlternativeVersionPanel: function(update_version) {
+            // update_version contains all template info, including the parts that are not locale specific
+            // I'm copying all of it, the pwndoc doesn't seem to care.
+            // Also - this kind of copy doesn't overwrite it inside the window, but as I'm closing the window right away it doesn't matter.
+            this.currentVulnerability.details[this.currentDetailsIndex] = update_version; 
+            this.updateVulnerability();
+        },
+        
         updateVulnerability: function() {
             this.cleanErrors();
             var index = this.currentVulnerability.details.findIndex(obj => obj.title !== '');
