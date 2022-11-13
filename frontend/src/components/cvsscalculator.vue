@@ -1136,6 +1136,7 @@ export default {
     }
 
     .cvsscalculator {
+        /* TNS custom modification */
         display: none;
     }
 </style>
