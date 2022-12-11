@@ -216,7 +216,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
-                this.triggerImporterDBUpdateForTemplate();
+                ImportAutomatorService.triggerImporterDBUpdateForTemplate(this.currentVulnerability._id); // this might be undefined
             })
             .catch((err) => {
                 Notify.create({
@@ -256,7 +256,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
-                this.triggerImporterDBUpdateForTemplate();
+                ImportAutomatorService.triggerImporterDBUpdateForTemplate(this.currentVulnerability._id); // this might be undefined
             })
             .catch((err) => {
                 Notify.create({
@@ -278,7 +278,7 @@ export default {
                     textColor:'white',
                     position: 'top-right'
                 })
-                this.triggerImporterDBUpdateForTemplate();
+                ImportAutomatorService.triggerImporterDBUpdateForTemplate(this.currentVulnerability._id); // this might be undefined
             })
             .catch((err) => {
                 Notify.create({
@@ -626,18 +626,6 @@ export default {
                 textColor:'white',
                 position: 'top-right'
             })
-        }
-
-        ,triggerImporterDBUpdateForTemplate(){
-            let templateID = this.currentVulnerability._id; // this might be undefined
-            ImportAutomatorService.updateImporterDB(templateID).catch((err) => {
-                Notify.create({
-                    message: err.response.data.datas,
-                    color: 'negative',
-                    textColor: 'white',
-                    position: 'top-right'
-                })
-            });
         }
 
     }
