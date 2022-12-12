@@ -206,6 +206,7 @@ export default {
             if (this.errors.title)
                 return;
 
+            ImportAutomatorService.setFakeCVSS(this.currentVulnerability, this.currentLanguage);
             VulnerabilityService.createVulnerabilities([this.currentVulnerability])
             .then(() => {
                 this.getVulnerabilities();
@@ -245,6 +246,7 @@ export default {
             if (this.errors.title)
                 return;
 
+            ImportAutomatorService.setFakeCVSS(this.currentVulnerability, this.currentLanguage);
             VulnerabilityService.updateVulnerability(this.vulnerabilityId, this.currentVulnerability)
             .then(() => {
                 this.getVulnerabilities();

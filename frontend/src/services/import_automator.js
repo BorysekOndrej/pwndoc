@@ -17,7 +17,8 @@ export default {
 
   getFindingSeverityCustom: function(finding, locale){
     try {
-      let severity_label_field = finding.customFields.filter((el) => el.customField.label === 'severity_label')[0];
+      let customFields = finding?.customFields ? finding?.customFields : finding.details[0].customFields;
+      let severity_label_field = customFields.filter((el) => el.customField.label === 'severity_label')[0];
 
       let text_severity = severity_label_field.text;
       let all_options = severity_label_field.customField.options;
@@ -46,5 +47,11 @@ export default {
     return levels[unified_severity_string];
   },
 
+  setFakeCVSS: function(finding, locale){
+    let customSeverity = this.getFindingSeverityCustom(finding, locale);
+    if (customSeverity !== undefined) {
+      finding.cvssv3 = this.unifiedSeverityToEquivalentCVSSString(customSeverity); // finding.cvssv3 might get overwriten later
+    }
+  },
 
 }

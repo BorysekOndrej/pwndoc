@@ -352,10 +352,7 @@ export default {
 
 
 			getFindingSeverity: function(finding) {
-				let customSeverity = ImportAutomatorService.getFindingSeverityCustom(finding, this.audit.language);
-				if (customSeverity !== undefined) {
-					finding.cvssv3 = ImportAutomatorService.unifiedSeverityToEquivalentCVSSString(customSeverity);
-				}
+				ImportAutomatorService.setFakeCVSS(finding, this.audit.language);
 
 				let severity = "None"
 				let cvss = CVSS31.calculateCVSSFromVector(finding.cvssv3)
