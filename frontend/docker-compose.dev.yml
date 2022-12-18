@@ -13,9 +13,9 @@ services:
     ports:
       - 9000:9000
     networks:
-      - backend
+      - pwndocimportautomator_backend
+
 
 networks:
-  backend:
-    external:
-      name: backend_backend
+  pwndocimportautomator_backend:
+    external: true

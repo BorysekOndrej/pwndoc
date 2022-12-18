@@ -51,13 +51,19 @@ module.exports = function (ctx) {
         cert: fs.readFileSync(__dirname+'/ssl/server.cert')
       },
       host: "0.0.0.0",
-      port: 8081,
+      port: 9000,
       proxy: {
         '/api': {
-          target: 'https://pwndoc-backend:5252',
+          target: 'https://pwndoc-backend:4242',
           changeOrigin: true,
-          secure: false
-        }
+          secure: false,
+        }, 
+        '/socket.io': {
+          target: 'https://pwndoc-backend:4242',
+          changeOrigin: true,
+          secure: false,
+          ws: true,
+        },
       }
       //open: true // opens browser window automatically
     },
