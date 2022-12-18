@@ -2,14 +2,10 @@
 FROM node:16-alpine AS build
 WORKDIR /app
 COPY package.json ./
-RUN npm install
+RUN yarn install
 COPY . .
 
-# BEGIN CUSTOM
-ARG API_PORT=8443
-# END CUSTOM
-
-RUN npm run build
+RUN yarn run build
 
 ### STAGE 2: Run ###
 FROM nginx:stable-alpine
