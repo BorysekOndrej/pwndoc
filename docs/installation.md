@@ -113,18 +113,8 @@ It's possible to run PwnDoc on a custom port (for example `443`), not just the d
 
 ```yaml
   pwndoc-frontend:
-    build:
-      context: ./frontend
-      args:
-       - API_PORT: 443 # <--
-    image: yeln4ts/pwndoc:frontend
-    container_name: pwndoc-frontend
-    restart: always
     ports:
       - 443:8443 # <--
-    networks:
-      - backend
 ```
 
-Argument `API_PORT` is evaluated during frontend build time, therefore if you change it in `docker-compose.yml` than rebuild is necessary. If you want to build and start the containers, it's possible to use: `docker-compose up -d --build`
-
+This works well for production. Beware that during development of Frontend its better to have the same port for Frontend, API and WebSocket.
